@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#070b14">
+    <title>رادار العملات | أسعار الصرف والأخبار المؤثرة</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- إضاءات خلفية ناعمة -->
+    <div class="ambient-glow glow-1" aria-hidden="true"></div>
+    <div class="ambient-glow glow-2" aria-hidden="true"></div>
+
+    <header class="navbar">
+        <div class="container nav-content">
+            <div class="brand">
+                <div class="brand-title">
+                    <h1>رادار العملات</h1>
+                    <span class="live-badge"><i class="pulse-dot" aria-hidden="true"></i> مباشر</span>
+                </div>
+                <p>تحويل فوري مدعوم بالأحداث الجيوسياسية والاقتصادية المؤثرة</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- شريط مؤشرات واتجاه الأسهم للعملات المهمة -->
+    <section class="container ticker-wrapper animate-card" aria-label="اتجاه أسعار العملات والمؤشرات">
+        <div class="ticker-bar" id="market-ticker">
+            <!-- يتم توليد الأسهم والمؤشرات تلقائياً عبر JavaScript -->
+        </div>
+    </section>
+
+    <main class="container main-grid">
+        <!-- قسم محول العملات -->
+        <section class="card converter-card animate-card" aria-label="محول العملات العالمي">
+            <div class="card-header">
+                <h2>محول العملات العالمي</h2>
+            </div>
+
+            <div class="input-group">
+                <label for="amount">المبلغ</label>
+                <input type="number" id="amount" value="100" min="0" step="any" inputmode="decimal" placeholder="أدخل المبلغ">
+            </div>
+
+            <div class="currencies-row">
+                <div class="input-group currency-field">
+                    <label for="from-currency">من عملة</label>
+                    <select id="from-currency"></select>
+                </div>
+
+                <button id="swap-btn" type="button" title="عكس العملات" aria-label="عكس العملات">⇄</button>
+
+                <div class="input-group currency-field">
+                    <label for="to-currency">إلى عملة</label>
+                    <select id="to-currency"></select>
+                </div>
+            </div>
+
+            <div class="result-box" id="result-box">
+                <span id="exchange-rate-info">جاري جلب السعر...</span>
+                <div id="conversion-result" aria-live="polite">---</div>
+                <small id="last-updated"></small>
+            </div>
+        </section>
+
+        <!-- قسم الأخبار المؤثرة على العملة -->
+        <section class="card news-card animate-card delay-1" aria-label="أحداث وأخبار مؤثرة على العملة">
+            <div class="news-header">
+                <h2>أحداث وأخبار مؤثرة على <span id="selected-currency-name" class="currency-pill">USD</span></h2>
+                <span class="badge">بدون توقعات • حقائق فقط</span>
+            </div>
+            <p class="news-subtitle">فلترة تلقائية للأزمات، الحروب، التضخم، وقرارات البنوك المركزية.</p>
+
+            <div id="news-container" class="news-list">
+                <!-- يتم حقن الأخبار عبر JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

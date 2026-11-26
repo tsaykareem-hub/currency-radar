@@ -1,0 +1,533 @@
+:root {
+    --bg-color: #070b14;
+    --card-bg: rgba(17, 24, 39, 0.82);
+    --card-border: rgba(148, 163, 184, 0.15);
+    --input-bg: rgba(7, 11, 20, 0.82);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent: #10b981;
+    --accent-soft: rgba(16, 185, 129, 0.14);
+    --accent-glow: rgba(16, 185, 129, 0.28);
+    --secondary-glow: rgba(56, 189, 248, 0.18);
+    --danger-tag: #f87171;
+    --danger-bg: rgba(239, 68, 68, 0.12);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Cairo', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.65;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    position: relative;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* إضاءات خلفية متوازنة للأداء على الهواتف والحواسيب */
+.ambient-glow {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(95px);
+    pointer-events: none;
+    z-index: -1;
+    will-change: transform;
+}
+
+.glow-1 {
+    width: clamp(220px, 34vw, 380px);
+    height: clamp(220px, 34vw, 380px);
+    background: var(--accent-glow);
+    top: -80px;
+    right: -70px;
+    animation: floatGlow 9s ease-in-out infinite alternate;
+}
+
+.glow-2 {
+    width: clamp(240px, 38vw, 420px);
+    height: clamp(240px, 38vw, 420px);
+    background: var(--secondary-glow);
+    bottom: -100px;
+    left: -80px;
+    animation: floatGlow 11s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes floatGlow {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    100% { transform: translate3d(20px, 18px, 0) scale(1.06); }
+}
+
+.container {
+    width: 100%;
+    max-width: 1160px;
+    margin-inline: auto;
+    padding-inline: clamp(14px, 4vw, 28px);
+}
+
+/* الهيدر */
+.navbar {
+    background: rgba(15, 23, 42, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--card-border);
+    padding-block: clamp(14px, 2.5vw, 20px);
+    margin-bottom: clamp(16px, 3vw, 24px);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.brand-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.navbar h1 {
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    font-weight: 800;
+    letter-spacing: -0.3px;
+}
+
+.live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulseLive 1.8s infinite;
+}
+
+@keyframes pulseLive {
+    0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.navbar p {
+    color: var(--text-muted);
+    font-size: clamp(0.82rem, 1.8vw, 0.92rem);
+    margin-top: 4px;
+}
+
+/* شريط الأسهم والمؤشرات */
+.ticker-wrapper {
+    margin-bottom: clamp(18px, 3vw, 28px);
+}
+
+.ticker-bar {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.25) transparent;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ticker-item {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-family: inherit;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+@media (hover: hover) {
+    .ticker-item:hover {
+        transform: translateY(-2px);
+        border-color: rgba(148, 163, 184, 0.38);
+    }
+}
+
+.ticker-arrow {
+    font-size: 0.78rem;
+    display: inline-block;
+    animation: arrowPulse 2s ease-in-out infinite;
+}
+
+.ticker-up {
+    border-color: rgba(16, 185, 129, 0.35);
+    background: rgba(16, 185, 129, 0.08);
+}
+
+.ticker-up .ticker-arrow,
+.ticker-up .ticker-val {
+    color: #34d399;
+}
+
+.ticker-down {
+    border-color: rgba(248, 113, 113, 0.35);
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.ticker-down .ticker-arrow,
+.ticker-down .ticker-val {
+    color: #f87171;
+}
+
+.ticker-flat .ticker-arrow {
+    color: var(--text-muted);
+    animation: none;
+}
+
+@keyframes arrowPulse {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+}
+
+/* الشبكة الرئيسية */
+.main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    gap: clamp(16px, 3vw, 24px);
+    margin-bottom: 44px;
+    align-items: start;
+}
+
+/* البطاقات الزجاجية */
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--card-border);
+    border-radius: clamp(14px, 2.2vw, 18px);
+    padding: clamp(16px, 3vw, 24px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+    transition: transform 0.28s ease, border-color 0.28s ease;
+    min-width: 0;
+}
+
+@media (hover: hover) {
+    .card:hover {
+        border-color: rgba(148, 163, 184, 0.28);
+    }
+}
+
+.animate-card {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: cardEntrance 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.animate-card.delay-1 {
+    animation-delay: 0.1s;
+}
+
+@keyframes cardEntrance {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card h2 {
+    font-size: clamp(1.05rem, 2.2vw, 1.22rem);
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+/* الحقول والأزرار (16px لمنع تكبير iOS التلقائي) */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+    width: 100%;
+    min-width: 0;
+}
+
+.input-group label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+input, select {
+    width: 100%;
+    min-width: 0;
+    background-color: var(--input-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-main);
+    padding: 12px 14px;
+    min-height: 46px;
+    border-radius: 11px;
+    font-family: inherit;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+select {
+    text-overflow: ellipsis;
+}
+
+input:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
+    background-color: rgba(7, 11, 20, 0.95);
+}
+
+.currencies-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.currency-field {
+    flex: 1 1 0;
+}
+
+#swap-btn {
+    background-color: var(--input-bg);
+    border: 1px solid var(--card-border);
+    color: var(--accent);
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.25rem;
+    margin-bottom: 14px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    touch-action: manipulation;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.25s ease, color 0.25s ease;
+}
+
+@media (hover: hover) {
+    #swap-btn:hover {
+        background-color: var(--accent);
+        color: #05130d;
+        transform: rotate(180deg);
+    }
+}
+
+#swap-btn:active {
+    background-color: var(--accent);
+    color: #05130d;
+    transform: scale(0.93);
+}
+
+/* صندوق النتيجة */
+.result-box {
+    background: linear-gradient(145deg, rgba(16, 185, 129, 0.09), rgba(7, 11, 20, 0.88));
+    border: 1px solid rgba(16, 185, 129, 0.24);
+    border-radius: 14px;
+    padding: clamp(16px, 3vw, 22px);
+    margin-top: 6px;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.result-box.result-flash {
+    animation: resultPop 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes resultPop {
+    0% { transform: scale(0.985); box-shadow: 0 0 0 rgba(16, 185, 129, 0); }
+    50% { transform: scale(1.01); box-shadow: 0 0 22px rgba(16, 185, 129, 0.2); }
+    100% { transform: scale(1); box-shadow: 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+#exchange-rate-info {
+    display: block;
+    color: var(--text-muted);
+    font-size: clamp(0.82rem, 1.8vw, 0.92rem);
+}
+
+#conversion-result {
+    font-size: clamp(1.55rem, 5vw, 2.15rem);
+    font-weight: 800;
+    color: var(--accent);
+    margin: 6px 0;
+    letter-spacing: -0.4px;
+    line-height: 1.25;
+}
+
+#last-updated {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.76rem;
+}
+
+/* قسم الأخبار */
+.news-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.news-header h2 {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.currency-pill {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 2px 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.badge {
+    background-color: var(--danger-bg);
+    color: var(--danger-tag);
+    border: 1px solid rgba(239, 68, 68, 0.28);
+    padding: 4px 11px;
+    border-radius: 999px;
+    font-size: 0.74rem;
+    font-weight: 700;
+}
+
+.news-subtitle {
+    color: var(--text-muted);
+    font-size: clamp(0.8rem, 1.8vw, 0.86rem);
+    margin: 10px 0 18px 0;
+}
+
+.news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.news-item {
+    background-color: var(--input-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 13px;
+    padding: clamp(13px, 2.5vw, 16px);
+    opacity: 0;
+    transform: translateY(10px);
+    animation: newsSlideIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    transition: transform 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+    min-width: 0;
+}
+
+.news-item:nth-child(2) { animation-delay: 0.06s; }
+.news-item:nth-child(3) { animation-delay: 0.12s; }
+.news-item:nth-child(4) { animation-delay: 0.18s; }
+.news-item:nth-child(5) { animation-delay: 0.24s; }
+
+@keyframes newsSlideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (hover: hover) {
+    .news-item:hover {
+        transform: translateY(-2px);
+        border-color: rgba(16, 185, 129, 0.45);
+        background-color: rgba(15, 23, 42, 0.92);
+    }
+}
+
+.news-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.news-tag {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.news-item h3 {
+    font-size: clamp(0.9rem, 2vw, 0.98rem);
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: var(--text-main);
+    overflow-wrap: anywhere;
+}
+
+.news-item p {
+    font-size: clamp(0.8rem, 1.8vw, 0.86rem);
+    color: var(--text-muted);
+    overflow-wrap: anywhere;
+}
+
+/* شاشات التابلت والهواتف */
+@media (max-width: 860px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* الهواتف الصغيرة جداً (أقل من 480px) */
+@media (max-width: 480px) {
+    .currencies-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+    }
+
+    #swap-btn {
+        width: 100%;
+        height: 40px;
+        margin-top: -4px;
+        margin-bottom: 10px;
+        transform: rotate(90deg);
+    }
+
+    #swap-btn:active {
+        transform: rotate(90deg) scale(0.96);
+    }
+}
+
+/* احترام تفضيل تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
